@@ -1,6 +1,6 @@
 [org 0x7c00]                        
       
-BOOT_DISK: db 0
+
 mov [BOOT_DISK], dl                 
 
 
@@ -53,7 +53,7 @@ start_protected_mode:
     mov [0xb8000], ax
     jmp $
 
-                                     
+BOOT_DISK: db 0                                     
  
 times 510-($-$$) db 0              
 dw 0xaa55
