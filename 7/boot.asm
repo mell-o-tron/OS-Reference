@@ -1,7 +1,7 @@
 [org 0x7c00]                        
 KERNEL_LOCATION equ 0x1000
                                     
-BOOT_DISK: db 0
+
 mov [BOOT_DISK], dl                 
 
                                     
@@ -40,7 +40,8 @@ jmp CODE_SEG:start_protected_mode
 
 jmp $
                                     
-                                     
+BOOT_DISK: db 0
+
 GDT_start:
     GDT_null:
         dd 0x0
