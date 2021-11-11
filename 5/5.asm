@@ -1,5 +1,4 @@
 [org 0x7c00] 
-BOOT_DISK: db 0
 mov [BOOT_DISK], dl                 
 
                                     
@@ -22,7 +21,8 @@ int 0x13
 mov ah, 0x0e
 mov al, [0x7e00]
 int 0x10
-
+jmp $
+BOOT_DISK: db 0
 
 times 510-($-$$) db 0              
 dw 0xaa55
