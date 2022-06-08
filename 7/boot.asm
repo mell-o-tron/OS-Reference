@@ -1,6 +1,7 @@
 [org 0x7c00]                        
 KERNEL_LOCATION equ 0x1000
                                     
+; setting up stack and mem
 
 mov [BOOT_DISK], dl                 
 
@@ -14,6 +15,8 @@ mov sp, bp
 mov bx, KERNEL_LOCATION
 mov dh, 2
 
+; reading from disk ( no errors free ) so please, DO YOUR HOMEWORK!
+
 mov ah, 0x02
 mov al, dh 
 mov ch, 0x00
@@ -22,11 +25,13 @@ mov cl, 0x02
 mov dl, [BOOT_DISK]
 int 0x13                ; no error management, do your homework!
 
-                                    
+; setting everything up for tty mode    
+    
 mov ah, 0x0
 mov al, 0x3
 int 0x10                ; text mode
 
+; setting up things for 32-bit mode
 
 CODE_SEG equ GDT_code - GDT_start
 DATA_SEG equ GDT_data - GDT_start
@@ -69,6 +74,7 @@ GDT_descriptor:
     dw GDT_end - GDT_start - 1
     dd GDT_start
 
+; entering 32-bit mode
 
 [bits 32]
 start_protected_mode:
@@ -84,7 +90,7 @@ start_protected_mode:
 
     jmp KERNEL_LOCATION
 
-                                     
+; the infamous magic number                                     
  
 times 510-($-$$) db 0              
 dw 0xaa55
