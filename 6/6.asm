@@ -1,9 +1,10 @@
 [org 0x7c00]                        
-      
+  
+; setting up the stack  
 
 mov [BOOT_DISK], dl                 
 
-
+; setting everything up for 32-bit mode ( the GTD part )
 
 CODE_SEG equ GDT_code - GDT_start
 DATA_SEG equ GDT_data - GDT_start
@@ -45,6 +46,7 @@ GDT_descriptor:
     dw GDT_end - GDT_start - 1
     dd GDT_start
 
+; finally, forget 16 bit mode ( finally 32-bit )
 
 [bits 32]
 start_protected_mode:
@@ -54,6 +56,8 @@ start_protected_mode:
     jmp $
 
 BOOT_DISK: db 0                                     
+ 
+; infamous padding number
  
 times 510-($-$$) db 0              
 dw 0xaa55
