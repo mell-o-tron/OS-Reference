@@ -1,23 +1,23 @@
 [org 0x7c00]                        
-      
-
-mov [BOOT_DISK], dl                 
 
 
-
+; defines the constant code and data segments
 CODE_SEG equ GDT_code - GDT_start
 DATA_SEG equ GDT_data - GDT_start
 
 cli
 lgdt [GDT_descriptor]
+
 mov eax, cr0
 or eax, 1
 mov cr0, eax
+
+
+; far jump to our labe;
 jmp CODE_SEG:start_protected_mode
 
-jmp $
-                                    
-                                     
+jmp $       
+    
 GDT_start:                          ; must be at the end of real mode code
     GDT_null:
         dd 0x0
@@ -42,8 +42,8 @@ GDT_start:                          ; must be at the end of real mode code
 GDT_end:
 
 GDT_descriptor:
-    dw GDT_end - GDT_start - 1
-    dd GDT_start
+    dw GDT_end - GDT_start - 1 ; size 
+    dd GDT_start ; location
 
 
 [bits 32]
@@ -53,7 +53,9 @@ start_protected_mode:
     mov [0xb8000], ax
     jmp $
 
-BOOT_DISK: db 0                                     
  
 times 510-($-$$) db 0              
 dw 0xaa55
+
+
+
